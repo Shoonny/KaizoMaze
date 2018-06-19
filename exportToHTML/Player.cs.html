@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>Player.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #2b91af; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(86,156,214); }
+.s1 { color: rgb(220,220,220); }
+.s2 { color: rgb(87,166,74); }
+.s3 { color: rgb(181,206,168); }
+</style>
+</head>
+<BODY BGCOLOR="#1e1e1e">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Player.cs</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">using </span><span class="s1">System.Collections; 
+</span><span class="s0">using </span><span class="s1">System.Collections.Generic; 
+ 
+</span><span class="s0">using </span><span class="s1">UnityEngine; 
+ 
+</span><span class="s2">/** 
+ *　　　　　　　 ┏┓　 ┏┓+ + 
+ *　　　　　　　┏┛┻━━━┛┻┓ + + 
+ *　　　　　　　┃　　　　　　┃ 　 
+ *　　　　　　　┃　　　━　　 ┃ ++ + + + 
+ *　　　　　　 ████━████  ┃+ 
+ *　　　　　　　┃　　　　　　　┃ + 
+ *　　　　　　　┃　　　┻　　　┃ 
+ *　　　　　　　┃　　　　　　┃ + + 
+ *　　　　　　　┗━┓　　　┏━┛ 
+ *　　　　　　　　 ┃　　　┃　　　　　　　　　　　 
+ *　　　　　　　　 ┃　　　┃ + + + + 
+ *　　　　　　　　 ┃　　　┃　　　　Code is far away from bug with the animal protecting　　　　　　　 
+ *　　　　　　　　 ┃　　　┃ + 　　　　神兽保佑,代码无bug　　 
+ *　　　　　　　　 ┃　　　┃ 
+ *　　　　　　　　 ┃　　　┃　　+　　　　　　　　　 
+ *　　　　　　　　 ┃　 　 ┗━━━┓ + + 
+ *　　　　　　　　 ┃ 　　　　   ┣┓ 
+ *　　　　　　　　 ┃ 　　　　　 ┏┛ 
+ *　　　　　　　　 ┗┓┓┏━┳┓┏┛ + + + + 
+ *　　　　　　　　  ┃┫┫ ┃┫┫ 
+ *　　　　　　　　  ┗┻┛ ┗┻┛+ + + + 
+ */</span><span class="s1"> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</span><span class="s2">/* 
+ * The player class is designed to store the data and the logicall relationships between 
+ * the sphere controled by the player and other part of the game 
+ * Including the integer &quot;Points&quot; that shows the current score made by the player 
+ * the boolean &quot;IsShoot&quot; that shows the status of whether the player is hit by the bullets 
+ * In this class,we try to implement the real-time points adding up through detecting the collision 
+ * happens between the sphere and the enemy cubes.Exceptionally, when the sphere collide with the clinder,the finish 
+ * scene will be loaded 
+ * The integer CurrentStage is an important parameter that it guides related text controling scripts to display the 
+ * proper score as well as providing index while doing file IO 
+ */</span><span class="s1"> 
+ 
+ 
+</span><span class="s0">public class </span><span class="s1">Player : MonoBehaviour 
+{ 
+    </span><span class="s0">public static int </span><span class="s1">Points = </span><span class="s3">0</span><span class="s1">; 
+     
+    </span><span class="s0">public static bool </span><span class="s1">IsShoot = </span><span class="s0">false</span><span class="s1">; 
+ 
+    </span><span class="s0">public static int </span><span class="s1">CurrentStage = </span><span class="s3">1</span><span class="s1">; 
+     
+    </span><span class="s0">void </span><span class="s1">Start () 
+    { 
+        </span><span class="s2">//Everytime when the player is initialized ,current score and the status of being shot are refreshed</span><span class="s1"> 
+        Points = </span><span class="s3">0</span><span class="s1">; 
+        IsShoot = </span><span class="s0">false</span><span class="s1">; 
+         
+    } 
+     
+    </span><span class="s0">void </span><span class="s1">collidedWithTarget(Target tar) 
+    { 
+        </span><span class="s2">//Make sure when collision is happening between the player and the terrain the function has solutions</span><span class="s1"> 
+        </span><span class="s2">//Since the terrain is not attached to &quot;Target&quot; script , when the collision happens,the object &quot;tar&quot; is null.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(tar == </span><span class="s0">null</span><span class="s1">) 
+        { 
+            </span><span class="s0">return</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(tar.IsFinal) 
+        { 
+            tar.Panggg(</span><span class="s0">this</span><span class="s1">); 
+            </span><span class="s0">return</span><span class="s1">; 
+        } 
+        tar.Panggg(</span><span class="s0">this</span><span class="s1">); 
+        Points ++; 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">OnCollisionEnter(Collision col) 
+    { 
+        Target tar = col.collider.gameObject.GetComponent&lt;Target&gt;(); 
+        collidedWithTarget(tar); 
+ 
+    } 
+ 
+     
+} 
+</span></pre>
+</body>
+</html>

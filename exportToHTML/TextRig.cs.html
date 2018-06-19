@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>TextRig.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #2b91af; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(220,220,220); }
+.s1 { color: rgb(86,156,214); }
+.s2 { color: rgb(87,166,74); }
+.s3 { color: rgb(214,157,133); }
+.s4 { color: rgb(181,206,168); }
+</style>
+</head>
+<BODY BGCOLOR="#1e1e1e">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+TextRig.cs</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0"> 
+</span><span class="s1">using </span><span class="s0">System; 
+</span><span class="s1">using </span><span class="s0">System.Collections; 
+</span><span class="s1">using </span><span class="s0">System.Collections.Generic; 
+</span><span class="s1">using </span><span class="s0">System.Net.Configuration; 
+</span><span class="s1">using </span><span class="s0">UnityEngine; 
+ 
+</span><span class="s1">using </span><span class="s0">UnityEngine.UI; 
+</span><span class="s2">/// &lt;summary&gt;</span><span class="s0"> 
+</span><span class="s2">/// The TextRig class basically manage the text of scores that is</span><span class="s0"> 
+</span><span class="s2">/// displayed in the game by using Multiple boolean variables to determine the points to be displayed</span><span class="s0"> 
+</span><span class="s2">/// We try to make all the text script in one class </span><span class="s0"> 
+</span><span class="s2">/// &lt;/summary&gt;</span><span class="s0"> 
+</span><span class="s1">public class </span><span class="s0">TextRig : MonoBehaviour 
+{ 
+    </span><span class="s2">//The GameObject that attaches to this script;</span><span class="s0"> 
+    </span><span class="s1">public </span><span class="s0">GameObject GO ; 
+ 
+    </span><span class="s2">//The boolean variable used to detemine whether it is the finish screen or not;</span><span class="s0"> 
+    </span><span class="s1">public bool </span><span class="s0">IsFinish = </span><span class="s1">false</span><span class="s0">; 
+ 
+    </span><span class="s2">//The Number that needs to be properly displayed;</span><span class="s0"> 
+    </span><span class="s1">private  int  </span><span class="s0">PointsToBeDisPlayed; 
+ 
+    </span><span class="s2">//The boolean variable used to determine whether it is the stage menu screen or not;</span><span class="s0"> 
+    </span><span class="s1">public bool </span><span class="s0">IsStageMenu = </span><span class="s1">false</span><span class="s0">; 
+     
+     
+    </span><span class="s2">/// &lt;summary&gt;</span><span class="s0"> 
+    </span><span class="s2">/// The Update method is called once per frame automatically by the UnityEngine</span><span class="s0"> 
+    </span><span class="s2">/// In this case the update is used to display the score properly refering to current scene</span><span class="s0"> 
+    </span><span class="s2">/// &lt;/summary&gt;</span><span class="s0"> 
+    </span><span class="s1">void </span><span class="s0">Update () 
+    { 
+        </span><span class="s2">//if the player is shoot, it should be the finish scene that is loaded but the score is invalid </span><span class="s0"> 
+        </span><span class="s2">//for the player did not finish the whole stage without being shoot</span><span class="s0"> 
+        </span><span class="s1">if </span><span class="s0">(Player.IsShoot&amp;&amp;!IsStageMenu) 
+        { 
+             
+            GO.GetComponent&lt;Text&gt;().text = </span><span class="s3">&quot;Stage failed&quot;</span><span class="s0">; 
+            </span><span class="s1">return</span><span class="s0">; 
+ 
+        } 
+ 
+         </span><span class="s1">if </span><span class="s0">(!IsFinish) 
+        { 
+            </span><span class="s2">//Read the file before the scores are displayed</span><span class="s0"> 
+            FileIO.FileReader(); 
+            Debug.Log(Convert.ToString(FileIO.AllPoints[</span><span class="s4">0</span><span class="s0">])); 
+            Debug.Log(Convert.ToString(FileIO.AllPoints[</span><span class="s4">1</span><span class="s0">])); 
+             
+            </span><span class="s1">switch </span><span class="s0">(Player.CurrentStage) 
+            { 
+                </span><span class="s1">case </span><span class="s4">1</span><span class="s0">: 
+                    </span><span class="s1">this</span><span class="s0">.PointsToBeDisPlayed = FileIO.AllPoints[</span><span class="s4">0</span><span class="s0">]; 
+                    </span><span class="s1">break</span><span class="s0">; 
+                </span><span class="s1">case </span><span class="s4">2</span><span class="s0">: 
+                    </span><span class="s1">this</span><span class="s0">.PointsToBeDisPlayed = FileIO.AllPoints[</span><span class="s4">1</span><span class="s0">]; 
+                    </span><span class="s1">break</span><span class="s0">; 
+                 
+                     
+            } 
+            GO.GetComponent&lt;Text&gt;().text = </span><span class="s3">&quot;highScore: &quot; </span><span class="s0">+ Convert.ToString(</span><span class="s1">this</span><span class="s0">.PointsToBeDisPlayed); 
+ 
+             
+        } 
+        </span><span class="s1">else </span><span class="s0"> 
+ 
+        { 
+             
+            </span><span class="s1">this</span><span class="s0">.PointsToBeDisPlayed = Player.Points; 
+            GO.GetComponent&lt;Text&gt;().text = </span><span class="s3">&quot;SCore:&quot; </span><span class="s0">+ Convert.ToString(</span><span class="s1">this</span><span class="s0">.PointsToBeDisPlayed); 
+        } 
+         
+    } 
+} 
+</span></pre>
+</body>
+</html>
